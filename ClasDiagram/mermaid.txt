@@ -1,0 +1,92 @@
+classDiagram
+
+    Result <|-- User
+    class User {
+        id: Integer
+        email: EmailField
+        first_name: String
+        last_name: String
+        username: String
+        password: String
+        department: Department
+
+        set_password(raw_password)
+    }
+    
+    User ..* Department
+    class Department {
+        department_id: String
+        department_name: String
+        coordinate: LocationField
+    }
+
+    User <|-- Admin
+    class Admin {
+        delete_user(id: String)
+        create_user(user: User)
+    }
+
+    User <|-- SolarCellManager
+    class SolarCellManager {
+        search(result: Result)
+    }
+
+    User <|-- DroneManager
+    class DroneManager {
+
+        create_task(VideoField, Department)
+    }
+
+    TaskQueue <-- Task
+    Task <-- DroneManager : create
+    class Task {
+        status: String
+        time: DateTimeField
+        department: Department
+        video: VideField
+
+        edit_task()
+    }
+
+    Result ..* SolarCell
+    class SolarCell {
+        id: Integer
+        percent_Efficiency: Float
+        future_percent_maintain: Float
+    }
+
+    Process <-- TaskQueue : use
+    class TaskQueue {
+        task: List<Task>
+        maxSize: Integer
+
+        insert(Task)
+        remove() Task
+        sent_to_process(Task)
+        isProcessBusy()
+    }
+
+    Result <-- Process : use
+    class Process {
+        task: Task
+
+        analyze(VideoField)
+    }
+
+    Process *-- AI_detection
+    class AI_detection {
+        detect_solarCell(ImageField)
+    }
+
+    Process *-- AI_classification
+    class AI_classification {
+        classify_solarCell(ImageField)
+    }
+
+    class Result {
+        solarCell_count: Integer
+        solarCell_must_maintain_count: Integer
+        solarCell_must_maintain: SolarCell[]
+        
+        edit_result()
+    }
