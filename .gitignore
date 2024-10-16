@@ -1,7 +1,6 @@
 **/.ipynb_checkpoints
 **/.DS_Store
 **/.venv
-**/key.py
 
 # Django #
 *.log
@@ -141,6 +140,3 @@ GitHub.sublime-settings
 !.vscode/launch.json 
 !.vscode/extensions.json 
 .history
-static/video/
-**/test.py
-**.pt
