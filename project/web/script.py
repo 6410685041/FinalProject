@@ -11,7 +11,7 @@ except Exception as e:
     print(f"An error occurred: {e}")
 
 from django.core.management import call_command
-from user.models import User, Department
+from user.models import User, SolarPlant
 from datetime import datetime
 import argparse
 from django.core.exceptions import ObjectDoesNotExist
@@ -30,18 +30,18 @@ def create_superuser():
     username = "admin"
     email = "admin@example.com"
     password = "admin1234"
-    department_name = "default department"
+    solarPlant_name = "default department"
     location = "37.7749,-122.4194"
 
-    department, created = Department.objects.get_or_create(
-        department_name=department_name,
+    solarPlant, created = SolarPlant.objects.get_or_create(
+        solarPlant=solarPlant_name,
         defaults={'location': location}  # Create with location if it doesn't exist
     )
 
     if created:
-        print(f'Department "{department_name}" created successfully with location {location}.')
+        print(f'Solar Plant "{solarPlant_name}" created successfully with location {location}.')
     else:
-        print(f'Department "{department_name}" already exists.')
+        print(f'Solar Plant "{solarPlant_name}" already exists.')
 
     # Create the superuser manually, not using call_command
     User = get_user_model()  # Get the custom user model
@@ -50,7 +50,7 @@ def create_superuser():
             username=username,
             email=email,
             password=password,
-            department=department  # Manually set the department
+            solarPlant=solarPlant  # Manually set the Solar Plant
         )
         print(f'Superuser "{username}" created successfully.')
     except Exception as e:
