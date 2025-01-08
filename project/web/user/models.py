@@ -16,5 +16,6 @@ class User(AbstractUser):
     )
     
     occupation = models.CharField(max_length=2, choices=occupations)
-    email = models.EmailField(max_length=30, unique=True)
+    is_approved = models.BooleanField(default=False)
+    email = models.EmailField(max_length=254, unique=True)
     solarPlant = models.ForeignKey(SolarPlant, on_delete=models.CASCADE)

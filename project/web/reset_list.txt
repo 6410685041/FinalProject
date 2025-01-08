@@ -1,0 +1,4 @@
+process/migrations
+user/migrations
+process/__pycache__
+user/__pycache__

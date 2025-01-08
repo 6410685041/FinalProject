@@ -26,22 +26,10 @@ def run_migrations():
     call_command("migrate")
     print("Migrations complete.")
 
-def create_superuser():
+def create_superuser(solarplant):
     username = "admin"
     email = "admin@example.com"
     password = "admin1234"
-    solarPlant_name = "default department"
-    location = "37.7749,-122.4194"
-
-    solarPlant, created = SolarPlant.objects.get_or_create(
-        solarPlant=solarPlant_name,
-        defaults={'location': location}  # Create with location if it doesn't exist
-    )
-
-    if created:
-        print(f'Solar Plant "{solarPlant_name}" created successfully with location {location}.')
-    else:
-        print(f'Solar Plant "{solarPlant_name}" already exists.')
 
     # Create the superuser manually, not using call_command
     User = get_user_model()  # Get the custom user model
@@ -50,7 +38,7 @@ def create_superuser():
             username=username,
             email=email,
             password=password,
-            solarPlant=solarPlant  # Manually set the Solar Plant
+            solarPlant=solarplant  # Manually set the Solar Plant
         )
         print(f'Superuser "{username}" created successfully.')
     except Exception as e:
@@ -63,21 +51,39 @@ def create_superuser():
     # user.save()
     print("Create super user complete.")
 
+def create_SolarPlant():
+    solarPlant_name = "default department"
+    location = "37.7749,-122.4194"
+
+    solarPlant, created = SolarPlant.objects.get_or_create(
+        solarPlant_name=solarPlant_name,  # Corrected field name
+        defaults={'location': location}  # Create with location if it doesn't exist
+    )
+
+    if created:
+        print(f'Solar Plant "{solarPlant_name}" created successfully with location {location}.')
+    else:
+        print(f'Solar Plant "{solarPlant_name}" already exists.')
+
+    return solarPlant
+
+
 if __name__ == "__main__":
     # Parse command-line arguments
-    # parser = argparse.ArgumentParser(description="Script to help doing the things")
-    # parser.add_argument("-r", action="store_true", help="Reset")
-    # parser.add_argument("-s", action="store_true", help="Setting")
-    # parser.add_argument("-a", action="store_true", help="Activate docker")
-    # args = parser.parse_args()
-    # if args.r:
-    #     # with open("reset_list.txt", "r") as file:
-    #     #     for to_clear in file.read().split("\n"):
-    #     #         subprocess.run(["rm", "-rf", to_clear])
-    #     # print("clear file in reset_list DONE!")
-    # if args.s:
-    run_migrations()
-    create_superuser()
+    parser = argparse.ArgumentParser(description="Script to help doing the things")
+    parser.add_argument("-r", action="store_true", help="Reset")
+    parser.add_argument("-s", action="store_true", help="Setting")
+    parser.add_argument("-a", action="store_true", help="Activate docker")
+    args = parser.parse_args()
+    if args.r:
+        with open("reset_list.txt", "r") as file:
+            for to_clear in file.read().split("\n"):
+                subprocess.run(["rm", "-rf", to_clear])
+        print("clear file in reset_list DONE!")
+    if args.s:
+        solarplant = create_SolarPlant()
+        run_migrations()
+        create_superuser(solarplant)
     # if args.a:
     #     subprocess.run(["docker", "compose", "down"])
     #     subprocess.run(["docker", "compose", "up", "-d"])
