@@ -4,13 +4,13 @@
 $ docker run --name postgres -p 5432:5432 -e POSTGRES_PASSWORD=mysecretpassword -d postgres
 ```
 
-## if already have containers
+### if already have containers
 
 ``` terminal
 $ docker start postgres
 ```
 
-## for stop docker
+### for stop docker
 
 ``` terminal
 $ docker stop postgres
