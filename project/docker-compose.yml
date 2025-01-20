@@ -9,7 +9,7 @@ services:
       - POSTGRES_USER=myuser
       - POSTGRES_DB=postgres_db
     volumes:
-      - ./storage/solardata:/var/lib/postgresql/data
+      - ./solardata:/var/lib/postgresql/data
 
   web:
     image: my-project-web-application

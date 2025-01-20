@@ -24,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-z_&z@j=n*2*597p%fn!#h1as%ye3=asnk+a@c+0ve2dca*fq&1'
+SECRET_KEY = os.getenv('DJANGO_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -41,6 +41,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    "django.contrib.sites",  # social
+    "allauth",  # social
+    "allauth.account",  # socail
+    "allauth.socialaccount",  # social
+    "allauth.socialaccount.providers.google",  # google
     "user",
     "process",
 ]
@@ -53,6 +58,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    "allauth.account.middleware.AccountMiddleware",  # social
 ]
 
 ROOT_URLCONF = 'SolarCellProject.urls'
@@ -135,3 +141,35 @@ STATICFILES_DIRS = [BASE_DIR / "static"]
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# social
+AUTHENTICATION_BACKENDS = [
+    "django.contrib.auth.backends.ModelBackend",  # social
+    "allauth.account.auth_backends.AuthenticationBackend",  # social
+]
+
+SITE_ID = 1  # social
+ACCOUNT_EMAIL_VERIFICATION = "none"
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_UNIQUE_EMAIL = True
+ACCOUNT_USERNAME_REQUIRED = False
+# LOGIN_REDIRECT_URL = "path for redirect"
+SOCIALACCOUNT_LOGIN_ON_GET = True
+ACCOUNT_LOGOUT_ON_GET = True
+
+
+# social
+SOCIALACCOUNT_PROVIDERS = {
+    "google": {
+        "Django CarDetection": {
+            "client_id": os.getenv('GOOGLE_CID'),
+            "secret": os.getenv('GOOGLE_SECRETS'),
+            "key": "",
+        }
+    },
+}
+
+LOCATION_FIELD = {
+    "map.provider": "openstreetmap",
+    "provider.openstreetmap.max_zoom": 18,
+}

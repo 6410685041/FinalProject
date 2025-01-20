@@ -2,8 +2,13 @@ import os
 import django
 import subprocess
 
+from dotenv import load_dotenv
+load_dotenv()
+
 try:
     # Set up Django environment
+    google_cid = os.getenv("GOOGLE_CID")
+    google_csecrets = os.getenv("GOOGLE_CSECRETS")
     os.environ.setdefault("DJANGO_SETTINGS_MODULE", "SolarCellProject.settings")
     django.setup()
 except Exception as e:
@@ -13,7 +18,8 @@ except Exception as e:
 from django.core.management import call_command
 from user.models import User, SolarPlant
 from datetime import datetime
-import argparse
+from django.contrib.sites.models import Site
+from allauth.socialaccount.models import SocialApp
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth import get_user_model
 
@@ -67,23 +73,52 @@ def create_SolarPlant():
 
     return solarPlant
 
+def create_initial_data(
+    google_cid,
+    google_csecrets
+):
+    print("Creating initial data...")
+    # Create some initial data
+    try:
+        site = Site.objects.get(id=1)
+        # If site with ID 1 exists, update its attributes
+        site.name = "127.0.0.1"
+        site.domain = "127.0.0.1"
+        site.save()
+    except ObjectDoesNotExist:
+        # If site with ID 1 doesn't exist, create a new one
+        site = Site.objects.create(id=1, name="127.0.0.1", domain="127.0.0.1")
+
+    google = SocialApp.objects.create(
+        provider="google",
+        name="Google",
+        client_id=google_cid,
+        secret=google_csecrets
+    )
+    google.sites.set([site])
+    solarplant = create_SolarPlant()
+    create_superuser(solarplant)
+
 
 if __name__ == "__main__":
     # Parse command-line arguments
-    parser = argparse.ArgumentParser(description="Script to help doing the things")
-    parser.add_argument("-r", action="store_true", help="Reset")
-    parser.add_argument("-s", action="store_true", help="Setting")
-    parser.add_argument("-a", action="store_true", help="Activate docker")
-    args = parser.parse_args()
-    if args.r:
-        with open("reset_list.txt", "r") as file:
-            for to_clear in file.read().split("\n"):
-                subprocess.run(["rm", "-rf", to_clear])
-        print("clear file in reset_list DONE!")
-    if args.s:
-        solarplant = create_SolarPlant()
+    # parser = argparse.ArgumentParser(description="Script to help doing the things")
+    # parser.add_argument("-r", action="store_true", help="Reset")
+    # parser.add_argument("-s", action="store_true", help="Setting")
+    # parser.add_argument("-a", action="store_true", help="Activate docker")
+    # args = parser.parse_args()
+    # if args.r:
+    #     with open("reset_list.txt", "r") as file:
+    #         for to_clear in file.read().split("\n"):
+    #             subprocess.run(["rm", "-rf", to_clear])
+    #     print("clear file in reset_list DONE!")
+    # if args.s:
+        
         run_migrations()
-        create_superuser(solarplant)
+        create_initial_data(
+            google_cid,
+            google_csecrets
+        )
     # if args.a:
     #     subprocess.run(["docker", "compose", "down"])
     #     subprocess.run(["docker", "compose", "up", "-d"])
