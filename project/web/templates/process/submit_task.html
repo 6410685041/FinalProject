@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Submit Task</title>
+</head>
+<body>
+    <h1>Create a new Task</h1>
+    <form action="http://localhost:5002/tasks/" method="post" enctype="multipart/form-data">
+        <div>
+            <label for="status">Status:</label>
+            <input type="text" id="status" name="status" required>
+        </div>
+        <div>
+            <label for="solarPlant">Solar Plant:</label>
+            <input type="text" id="solarPlant" name="solarPlant" required>
+        </div>
+        <div>
+            <label for="weather">Weather:</label>
+            <input type="text" id="weather" name="weather" required>
+        </div>
+        <div>
+            <label for="zone">Zone (comma-separated):</label>
+            <input type="text" id="zone" name="zone" required>
+        </div>
+        <div>
+            <label for="owner">Owner:</label>
+            <input type="text" id="owner" name="owner" required>
+        </div>
+        <div>
+            <label for="video">Video File:</label>
+            <input type="file" id="video" name="video">
+        </div>
+        <div>
+            <label for="image">Image File:</label>
+            <input type="file" id="image" name="image">
+        </div>
+        <div>
+            <label for="collected_time">Collected Time:</label>
+            <input type="datetime-local" id="collected_time" name="collected_time" required>
+        </div>
+        <button type="submit">Submit Task</button>
+    </form>
+</body>
+</html>

@@ -1,11 +1,11 @@
 from fastapi import FastAPI, File, UploadFile, Form
 from typing import List
 
-from fastapi import FastAPI, HTTPException
-from database import database, engine, metadata
+from fastapi import FastAPI
+from database import database
 from models import tasks
-from pydantic import BaseModel
 from typing import List
+from datetime import datetime
 
 import os
 
@@ -19,14 +19,15 @@ async def create_task(
         zone: List[str] = Form(...),
         owner: str = Form(...),
         video: UploadFile = File(None),  # Optional file
-        image: UploadFile = File(None)  # Optional file
+        image: UploadFile = File(None),  # Optional file
+        collected_time: datetime = Form(...),
     ):
 
     # insert the task without file paths
     task_query = tasks.insert().values(
         status=status, 
-        collected_time=parser.parse(collected_time),
-        submited_time=parser.parse(submited_time),
+        collected_time=collected_time,
+        submited_time=datetime.now(),  # fixed datetime usage
         solarPlant=solarPlant,
         weather=weather,
         zone=zone,
