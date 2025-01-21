@@ -1,5 +1,9 @@
 django
 psycopg2
 django-location-field
+django-allauth
 six
 python-dotenv
+requests
+PyJWT
+cryptography

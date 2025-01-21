@@ -1,40 +1,53 @@
 from fastapi import FastAPI, File, UploadFile, Form
+from typing import List
+
+from fastapi import FastAPI, HTTPException
+from database import database, engine, metadata
+from models import tasks
 from pydantic import BaseModel
-from datetime import datetime
-import json
+from typing import List
+
+import os
 
 app = FastAPI()
 
-# สร้างโมเดลสำหรับ task
-class Task(BaseModel):
-    name: str
-    date_time: datetime
-
-# API สำหรับรับข้อมูล task พร้อมไฟล์
-@app.post("/upload-task/")
-async def upload_task(file: UploadFile = File(...), name: str = Form(...), date_time: datetime = Form(...)):
-    # task = Task(name=name, date_time=date_time)
-    # # บันทึกไฟล์ อาจจะบันทึกลงในระบบไฟล์หรือฐานข้อมูล
-    # contents = await file.read()
-    # with open(f"{file.filename}", "wb") as f:
-    #     f.write(contents)
-    # # บันทึก task ลงในฐานข้อมูล (ตัวอย่างไม่ได้เชื่อมต่อจริง)
-    # # save_task_to_db(task)
-    # return {"filename": file.filename, "task": task}
-    return None
-
-# API สำหรับรับข้อมูล JSON และบันทึกลงฐานข้อมูล
 @app.post("/tasks/")
-async def create_task(task: Task):
-    # save_task_to_db(task) (ตัวอย่างไม่ได้เชื่อมต่อจริง)
-    # return {"task": task}
-    return None
+async def create_task(
+        status: str = Form(...),
+        solarPlant: str = Form(...),
+        weather: str = Form(...),
+        zone: List[str] = Form(...),
+        owner: str = Form(...),
+        video: UploadFile = File(None),  # Optional file
+        image: UploadFile = File(None)  # Optional file
+    ):
 
-# สามารถเพิ่ม API เพื่อส่งข้อมูล task ที่มีอยู่แล้วในฐานข้อมูล หากจำเป็น
-@app.get("/tasks/")
-async def get_tasks():
-    # tasks = fetch_tasks_from_db() (ตัวอย่างไม่ได้เชื่อมต่อจริง)
-    # return {"tasks": tasks}
-    # return {"tasks": "Placeholder for tasks from database"}
-    return None
+    # insert the task without file paths
+    task_query = tasks.insert().values(
+        status=status, 
+        collected_time=parser.parse(collected_time),
+        submited_time=parser.parse(submited_time),
+        solarPlant=solarPlant,
+        weather=weather,
+        zone=zone,
+        owner=owner
+    )
+    task_id = await database.execute(task_query)
 
+    # Save the files with the task_id in their paths
+    video_path = await save_upload_file(video, task_id, "video") if video else None
+    image_path = await save_upload_file(image, task_id, "image") if image else None
+
+    # Update the task with file paths
+    update_query = tasks.update().where(tasks.c.id == task_id).values(video=video_path, image=image_path)
+    await database.execute(update_query)
+
+    return {"task_id": task_id, "video_path": video_path, "image_path": image_path}
+
+async def save_upload_file(upload_file: UploadFile, task_id: int, file_type: str):
+    directory = f"./SolarData/{task_id}"
+    os.makedirs(directory, exist_ok=True)
+    file_location = f"./SolarData/{task_id}/{file_type}/{upload_file.filename}"
+    with open(file_location, "wb") as file_object:
+        shutil.copyfileobj(upload_file.file, file_object)
+    return file_location

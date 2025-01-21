@@ -8,8 +8,6 @@ services:
       - POSTGRES_PASSWORD=mysecretpassword
       - POSTGRES_USER=myuser
       - POSTGRES_DB=postgres_db
-    volumes:
-      - ./solardata:/var/lib/postgresql/data
 
   web:
     image: my-project-web-application
@@ -27,3 +25,5 @@ services:
     ports:
       - 5003:5003
     build: ./storage
+    volumes:
+      - ./SolarData:/app/SolarData
