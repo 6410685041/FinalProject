@@ -7,9 +7,31 @@ from models import tasks
 from typing import List
 from datetime import datetime
 
+import json
 import os
+from sqlalchemy import create_engine, text
+from sqlalchemy.orm import sessionmaker
 
 app = FastAPI()
+
+# Setup database engine and session
+DATABASE_URL = os.getenv("DATABASE_URL")
+engine = create_engine(DATABASE_URL)
+SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+
+@app.get("/SolarPlant/allname")
+def find_all_name_solarplant():
+    db = SessionLocal()
+    try:
+        query = text("SELECT \"solarPlant_name\" FROM user_solarplant")
+        result = db.execute(query).fetchall()
+        result_list = [{'solarPlant_name': row[0]} for row in result]
+        # result_list = [dict(row) for row in result]
+    except Exception as e:
+        return {"error": str(e)}
+    finally:
+        db.close()  # Make sure to close the session
+    return json.dumps(result_list)
 
 @app.post("/tasks/")
 async def create_task(
