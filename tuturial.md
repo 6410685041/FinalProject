@@ -35,3 +35,30 @@ GOOGLE_CID=
 GOOGLE_CSECRETS=
 DJANGO_SECRET_KEY=
 ```
+
+# for postgres container (db)
+
+### for go into db with exec
+
+``` sh
+psql -U <username> -d <database_name>
+```
+
+### for find all table in database
+
+```sh
+select * from pg_catalog.pg_tables where schemaname='public';
+```
+
+### if you forget `;` at the end of command, reset code with
+
+```sh
+\r
+```
+
+# For Website
+
+## if there is problem with `provider_login_url`
+
+look at `social applications` in admin site, make sure that your provider login have already selected **site for using**
+
