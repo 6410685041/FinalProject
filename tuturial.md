@@ -58,7 +58,17 @@ select * from pg_catalog.pg_tables where schemaname='public';
 
 # For Website
 
+## if there is problem with `django site`
+
+go to docker `exec in web container` and use this command for make migrations and migrate
+
+```terminal
+python script.py -s
+```
+
+then refresh web again
+
 ## if there is problem with `provider_login_url`
 
-look at `social applications` in admin site, make sure that your provider login have already selected **site for using**
+look at `social applications` in admin site, make sure that your provider login have already selected **site for using** --> the site for using should be in the left box
 

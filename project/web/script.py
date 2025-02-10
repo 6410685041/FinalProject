@@ -18,6 +18,7 @@ except Exception as e:
 from django.core.management import call_command
 from user.models import User, SolarPlant
 from datetime import datetime
+import argparse
 from django.contrib.sites.models import Site
 from allauth.socialaccount.models import SocialApp
 from django.core.exceptions import ObjectDoesNotExist
@@ -39,22 +40,22 @@ def create_superuser(solarplant):
 
     # Create the superuser manually, not using call_command
     User = get_user_model()  # Get the custom user model
-    try:
-        user = User.objects.create_superuser(
-            username=username,
-            email=email,
-            password=password,
-            solarPlant=solarplant  # Manually set the Solar Plant
-        )
-        print(f'Superuser "{username}" created successfully.')
-    except Exception as e:
-        print(f'Error creating superuser: {e}')
+    
+    # Check if a superuser already exists
+    if not User.objects.filter(is_superuser=True).exists():
+        try:
+            user = User.objects.create_superuser(
+                username=username,
+                email=email,
+                password=password,
+                solarPlant=solarplant  # Manually set the Solar Plant
+            )
+            print(f'Superuser "{username}" created successfully.')
+        except Exception as e:
+            print(f'Error creating superuser: {e}')
+    else:
+        print("A superuser already exists.")
 
-    # call_command("createsuperuser", username=username, email=email, department=department, interactive=False)
-    # # Set the password for the created superuser
-    # user = Profile.objects.get(username=username)
-    # user.set_password(password)
-    # user.save()
     print("Create super user complete.")
 
 def create_SolarPlant():
@@ -89,36 +90,40 @@ def create_initial_data(
         # If site with ID 1 doesn't exist, create a new one
         site = Site.objects.create(id=1, name="127.0.0.1", domain="127.0.0.1")
 
-    google = SocialApp.objects.create(
-        provider="google",
-        name="Google",
-        client_id=google_cid,
-        secret=google_csecrets
-    )
+    google, created = SocialApp.objects.get_or_create(
+                            provider="google",
+                            defaults={'name': "Google", 'client_id': google_cid, 'secret': google_csecrets}
+                        )
+    if not created:
+        google.name = "Google"
+        google.client_id = google_cid
+        google.secret = google_csecrets
+        google.save()
     google.sites.set([site])
+
     solarplant = create_SolarPlant()
     create_superuser(solarplant)
 
 
 if __name__ == "__main__":
     # Parse command-line arguments
-    # parser = argparse.ArgumentParser(description="Script to help doing the things")
-    # parser.add_argument("-r", action="store_true", help="Reset")
-    # parser.add_argument("-s", action="store_true", help="Setting")
-    # parser.add_argument("-a", action="store_true", help="Activate docker")
-    # args = parser.parse_args()
+    parser = argparse.ArgumentParser(description="Script to help doing the things")
+    parser.add_argument("-r", action="store_true", help="Reset")
+    parser.add_argument("-s", action="store_true", help="Setting")
+    parser.add_argument("-a", action="store_true", help="Activate docker")
+    args = parser.parse_args()
     # if args.r:
     #     with open("reset_list.txt", "r") as file:
     #         for to_clear in file.read().split("\n"):
     #             subprocess.run(["rm", "-rf", to_clear])
     #     print("clear file in reset_list DONE!")
-    # if args.s:
-        
+    if args.s:
         run_migrations()
         create_initial_data(
             google_cid,
             google_csecrets
         )
-    # if args.a:
+    if args.a:
+        call_command('runserver', '0.0.0.0:8000')
     #     subprocess.run(["docker", "compose", "down"])
     #     subprocess.run(["docker", "compose", "up", "-d"])

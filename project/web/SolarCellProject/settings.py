@@ -161,7 +161,7 @@ ACCOUNT_LOGOUT_ON_GET = True
 # social
 SOCIALACCOUNT_PROVIDERS = {
     "google": {
-        "Django CarDetection": {
+        "APP": {
             "client_id": os.getenv('GOOGLE_CID'),
             "secret": os.getenv('GOOGLE_SECRETS'),
             "key": "",
