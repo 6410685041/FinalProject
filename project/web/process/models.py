@@ -22,6 +22,7 @@ class Task(models.Model):
 )
 
     weather = models.CharField(max_length=10, choices=WEATHER_CONDITIONS)
+    temperature = models.FloatField(default=0)
     file = models.FileField()
     video = models.FileField(upload_to='videos/')
 

@@ -45,7 +45,7 @@ def find_all_name_solarplant():
 
 @app.post("/tasks/")
 async def create_task(
-        status: str = Form(...),
+        status: str = Form(None), # Set to default
         solarPlant: str = Form(...),
         weather: str = Form(...),
         zone: List[str] = Form(...),
@@ -53,17 +53,19 @@ async def create_task(
         video: UploadFile = File(None),  # Optional file
         image: UploadFile = File(None),  # Optional file
         collected_time: datetime = Form(...),
+        temperature: float = Form(...),
     ):
 
     # insert the task without file paths
     task_query = tasks.insert().values(
-        status=status, 
+        status=False, # this task is in waiting queue
         collected_time=collected_time,
         submited_time=datetime.now(),  # fixed datetime usage
         solarPlant=solarPlant,
         weather=weather,
         zone=zone,
-        owner=owner
+        owner=owner,
+        temperature=temperature,
     )
     task_id = await database.execute(task_query)
 
