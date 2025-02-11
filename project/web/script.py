@@ -109,7 +109,8 @@ if __name__ == "__main__":
     # Parse command-line arguments
     parser = argparse.ArgumentParser(description="Script to help doing the things")
     parser.add_argument("-r", action="store_true", help="Reset")
-    parser.add_argument("-s", action="store_true", help="Setting")
+    parser.add_argument("-m", action="store_true", help="Migrate")
+    parser.add_argument("-c", action="store_true", help="Social Account")
     parser.add_argument("-a", action="store_true", help="Activate docker")
     args = parser.parse_args()
     # if args.r:
@@ -117,13 +118,12 @@ if __name__ == "__main__":
     #         for to_clear in file.read().split("\n"):
     #             subprocess.run(["rm", "-rf", to_clear])
     #     print("clear file in reset_list DONE!")
-    if args.s:
+    if args.m:
         run_migrations()
+    if args.c:
         create_initial_data(
             google_cid,
             google_csecrets
         )
     if args.a:
         call_command('runserver', '0.0.0.0:8000')
-    #     subprocess.run(["docker", "compose", "down"])
-    #     subprocess.run(["docker", "compose", "up", "-d"])

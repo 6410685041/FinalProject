@@ -63,12 +63,12 @@ select * from pg_catalog.pg_tables where schemaname='public';
 go to docker `exec in web container` and use this command for make migrations and migrate
 
 ```terminal
-python script.py -s
+python script.py -m
 ```
 
 then refresh web again
 
-## if there is problem with `provider_login_url`
+## if there is problem with `MultipleObjectsReturned`
 
 look at `social applications` in admin site, make sure that your provider login have already selected **site for using** --> the site for using should be in the left box
 
