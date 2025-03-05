@@ -1,0 +1,53 @@
+{% extends "layout.html" %}
+{% load static %}
+
+{% block css %}
+{% endblock %}
+
+{% block content %}
+<div>
+    <p><a href="#"> < back </a> | Task #{{task.id}}</p>
+</div>
+
+<div>
+    <h2>Description</h2>
+    <div>
+        <table>
+            {% for result in task %}
+            <tr>
+                <th>{{result.key}}</th>
+                <td>{{result.value}}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>
+
+<div>
+    <h2>Data Files</h2>
+    <div>
+        <p>Original Video</p>
+        <img>
+        <p>Thermal Video</p>
+        <img>
+    </div>
+</div>
+
+<div>
+    <h2>Result</h2>
+    <div>
+        {% for zone in zones %}
+        <h3>{{zone.name}}</h3>
+            <div>
+                {% for data in zone.data %}
+                <div class="box-display-cell">
+                    <a href="#">
+                        <p>Performance</p>
+                        <p>{{data.percent}}</p>
+                    </a>
+                </div>
+            </div>
+    </div>
+</div>
+
+{% endblock %}

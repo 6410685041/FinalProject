@@ -1,0 +1,23 @@
+{% extends "layout.html" %}
+{% load static %}
+
+{% block css %}
+{% endblock %}
+
+{% block content %}
+<h1>Solar Plants</h1>
+<div class="search-engine">
+    <input type="text" id="search_key" name="search" placeholder="search"><br>
+</div>
+
+<table class="solarplant-table">
+    <tr>
+        <th>ID</th>
+        <th>Solar Plant</th>
+        <th>Address</th>
+        <th>Total Task</th>
+    </tr>
+</table>
+
+
+{% endblock %}

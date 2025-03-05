@@ -1,0 +1,14 @@
+.section {
+    display: none; /* Hide sections by default */
+    padding: 20px;
+    border: 1px solid #ccc;
+    margin-top: 20px;
+}
+
+#section1 {
+    display: block; /* Show first section by default */
+}
+
+.clickable {
+    cursor: pointer;
+}
