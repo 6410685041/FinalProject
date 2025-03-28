@@ -4,7 +4,7 @@
 
 [Figma](https://www.figma.com/design/H55Y0SL7eFCuN9tyDWsRBZ/FinalProject?node-id=0-1&node-type=canvas&t=HA5cRkeajVKo9l6l-0)
 
-[Prototype](https://www.figma.com/proto/H55Y0SL7eFCuN9tyDWsRBZ/FinalProject?node-id=1-4&t=fcVgUi05HI2cALp7-0&scaling=min-zoom&content-scaling=fixed&page-id=0%3A1&starting-point-node-id=1%3A4)
+[Prototype](https://www.figma.com/proto/H55Y0SL7eFCuN9tyDWsRBZ/FinalProject?node-id=1-4&p=f&t=kGpX25D5wdLwP1Rz-1&scaling=min-zoom&content-scaling=fixed&page-id=0%3A1&starting-point-node-id=1%3A4)
 
 ## Class Diagram
 
