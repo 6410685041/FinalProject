@@ -16,12 +16,15 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
-from .views import home, CustomSignupView
+from .views import home
+# for include Process App
+import process
+from process import view_urls
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("", home, name="home"),
     path("accounts/", include("allauth.urls")),  # social
-    # Override the signup view before including allauth.urls
-    path("accounts/signup/", CustomSignupView.as_view(), name="account_signup"),
+    # Process App
+    path("process/", include(process.view_urls)),
 ]
