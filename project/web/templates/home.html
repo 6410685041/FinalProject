@@ -2,24 +2,57 @@
 {% load static %}
 
 {% block css %}
+    <link rel="stylesheet" href="{% static 'css/main.css' %}"> 
 {% endblock %}
 
 {% block content %}
 <div class="content-block-home">
     {% if user.is_authenticated %}
-        <h2>Welcome! {{ user.username }} !!!</h2>
-        <p> search </p>
-        <input type="checkbox" id="toggle-switch">
-        <table id="tasks-table">
-            <tr>
-                <th>Date</th>
-                <th>ID</th>
-                <th>Solar Plant</th>
-                <th>Owner</th>
-                <th>Status</th>
-                <th>Detail</th>
-            </tr>
-        </table>
+        <h1>Welcome! {{ user.username }} !!!</h1>
+
+        <div>
+            <div class="search-engine">
+                <input type="text" id="search_key" name="search" placeholder="search">
+                <input type="date">
+            </div>
+        </div>
+
+        <div class="content-section">
+            <table id="tasks-table">
+                <tr>
+                    <th><input type="checkbox" id="toggle-switch"></th>
+                    <th>Date</th>
+                    <th>ID</th>
+                    <th>Solar Plant</th>
+                    <th>Owner</th>
+                    <th class="fixed-column">Status</th>
+                    <th class="fixed-column">Details</th>
+                </tr>
+
+                <tr>
+                    <td><input type="checkbox" id="toggle-switch"></td>
+                    <td>date</td>
+                    <td>id</td>
+                    <td>solar plant</td>
+                    <td>name surname</td>
+                    <td> <button class="green-border"> completed </button> </td>
+                    <td> <button class="green-box"> detail </button> </td>
+                </tr>
+                
+                <tr>
+                    <td><input type="checkbox" id="toggle-switch"></td>
+                    <td>date</td>
+                    <td>id</td>
+                    <td>solar plant</td>
+                    <td>name surname</td>
+                    <td> <button class="gray-border"> in process </button> </td>
+                    <td> <button class="gray-box"> detail </button> </td>
+                </tr>
+            </table>
+        </div>
     {% endif %}
 </div>
+{% endblock %}
+
+{% block script %}
 {% endblock %}

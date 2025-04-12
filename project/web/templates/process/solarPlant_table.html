@@ -2,22 +2,42 @@
 {% load static %}
 
 {% block css %}
+    <link rel="stylesheet" href="{% static 'css/main.css' %}"> 
 {% endblock %}
 
 {% block content %}
 <h1>Solar Plants</h1>
-<div class="search-engine">
-    <input type="text" id="search_key" name="search" placeholder="search"><br>
+
+<div class="site-function">
+    <div class="search-engine">
+        <input type="text" id="search_key" name="search" placeholder="search">
+    </div>
+    <a href="{% url 'create_solarplant_view' %}" class="site-button"> Create </a>
 </div>
 
-<table class="solarplant-table">
-    <tr>
-        <th>ID</th>
-        <th>Solar Plant</th>
-        <th>Address</th>
-        <th>Total Task</th>
-    </tr>
-</table>
+<div class="content-section">
+    <table class="solarplant-table">
+        <tr>
+            <th>ID</th>
+            <th>Solar Plant</th>
+            <th>Address</th>
+            <th class="fixed-column">Total Task</th>
+        </tr>
 
+        <tr>
+            <td>id</td>
+            <td>solar plant</td>
+            <td>address</td>
+            <td> <button class="yellow-border">10</button> </td>
+        </tr>
+
+        <tr>
+            <td>id</td>
+            <td>solar plant</td>
+            <td>address</td>
+            <td> <button class="yellow-border">10</button> </td>
+        </tr>
+    </table>
+</div>
 
 {% endblock %}

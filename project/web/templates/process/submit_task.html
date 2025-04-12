@@ -2,169 +2,178 @@
 {% load static %}
 
 {% block css %}
-    <!-- <link rel="stylesheet" href="{% static 'css/process.css' %}">  -->
-    <style>
-        .section {
-            display: none; /* Hide sections by default */
-            padding: 20px;
-            border: 1px solid #ccc;
-            margin-top: 20px;
-        }
-        
-        #section1 {
-            display: block; /* Show first section by default */
-        }
-
-        .clickable {
-            cursor: pointer;
-        }
-    </style>
+    <link rel="stylesheet" href="{% static 'css/task.css' %}"> 
 {% endblock %}
 
 {% block content %}
-    <h1>Upload Video and Files</h1>
-    <form action="http://localhost:5002/tasks/" method="post" enctype="multipart/form-data">
-        <div id="section1" class="section">
-            <p>1. select Solar Plant and files</p>
-            <div>
+<h1>Upload Video and Files</h1>
+<form action="http://localhost:5002/tasks/" method="post" enctype="multipart/form-data">
+    <div id="section1" class="section">
+        <p class="introduction">1. select Solar Plant and files</p>
+            <div id="container-section1" class="section-background">
                 <label for="solarPlant">Solar Plant Name:</label>
-                <select id="solarPlant" name="solarPant"></select>
-            </div>
-            <div>
+                <select id="solarPlant" name="solarPant" required></select>
+
                 <label for="weather">Weather:</label>
-                <select id="weather" name="weather">
+                <select id="weather" name="weather" required>
                     <option value="SUNNY">Sunny</option>
                     <option value="WINDY">Windy</option>
                     <option value="CLOULDY">Cloudy</option>
                     <option value="RAINY">Rainy</option>
                 </select>
-            </div>
-            <div>
+
                 <label for="video">Video File:</label>
                 <input type="file" id="video" name="video">
-            </div>
-            <div>
+
                 <label for="image">Image File:</label>
                 <input type="file" id="image" name="image">
-            </div>
-            <div>
+
                 <label for="collected_time">Collected Time:</label>
                 <input type="datetime-local" id="collected_time" name="collected_time" required>
-            </div>
-            <div>
-                <label for="temperature">Temperature:</label>
-                <input type="number" id="floatInput" name="floatInput" step="0.1">
-            </div>
 
-            <button onclick="toggleSection()">Next</button>
+                <label for="temperature">Temperature:</label>
+                <input type="number" id="floatInput" name="floatInput" step="0.1" required>
+
+                <button onclick="toggleSection()">Next</button>
+            </div>
         </div>
 
         <div id="section2" class="section">
-            <p> <span class="clickable" onclick="toggleSection()"> 1. select Solar Plant and files</span> / 2. select Solar Cell</p>
-            <div>
-                <p> Reference </p>
-                <div id="video-wrapper">
-                    <video id="video">
-                        <source src="{{ task.video.url }}" type="video/mp4">     
-                    </video>
-                    <canvas id="canvas"></canvas>
+            <p class="introduction"> <span class="clickable" onclick="toggleSection()"> 1. select Solar Plant and files</span> / 2. select Solar Cell</p>
+            <div id="container-section2" class="section-background">
+                <div>
+                    <h3> Reference </h3>
+                    <div id="video-wrapper">
+                        <video id="video">
+                            <source src="{{ task.video.url }}" type="video/mp4">     
+                        </video>
+                        <canvas id="canvas"></canvas>
+                    </div>
                 </div>
-            </div>
-            <div>
-                <p> Position </p>
-                <div id="video-wrapper">
-                    <video id="video">
-                        <source src="{{ task.video.url }}" type="video/mp4">     
-                    </video>
-                    <canvas id="canvas-display"></canvas>
+
+                <div>
+                    <h3> Position </h3>
+                    <div id="video-wrapper">
+                        <video id="video">
+                            <source src="{{ task.video.url }}" type="video/mp4">     
+                        </video>
+                        <canvas id="canvas-display"></canvas>
+                    </div>
                 </div>
-            </div>
-            <div>
-                <p> Create </p>
-                <form enctype="multipart/form-data" action="{% url 'add_zone' task.id %}" method="POST">
-                    {% csrf_token %}
-                    <p> 1. Click on the picture 4 points to select Solar Cell zone </p>
-                    <p> 2. your zone name </p>
-                    <div class="form-controls form-controls1-2 pg1-2">
-                        <label for="zone_name">Zone Name:</label>
-                        <input type="text" id="zone_name" name="zone_name" value="{{zone.zone_name}}"/>
-    
-                        <div class="set-input-block">
-                            <div class="col-left" style="margin-bottom: 10px;">
-                                <label for="x1">x1</label>
-                                <input type="number" id="x1" name="x1" value="{{zone.x1}}" required/>
-                                <label for="y1">y1</label>
-                                <input type="number" id="y1" name="y1" value="{{zone.y1}}" required/>
-                                <br>
-                                <label for="x2">x2</label>
-                                <input type="number" id="x2" name="x2" value="{{zone.x2}}" required/>
-                                <label for="y2">y2</label>
-                                <input type="number" id="y2" name="y2" value="{{zone.y2}}" required/>
-                                <br>
-                                <label for="x3">x3</label>
-                                <input type="number" id="x3" name="x3" value="{{zone.x3}}" required/>
-                                <label for="y3">y3</label>
-                                <input type="number" id="y3" name="y3" value="{{zone.y3}}" required/>
-                                <br>
-                                <label for="x4">x4</label>
-                                <input type="number" id="x4" name="x4" value="{{zone.x4}}" required/>
-                                <label for="y4">y4</label>
-                                <input type="number" id="y4" name="y4" value="{{zone.y4}}" required/>
+
+                <div>
+                    <h3> Create </h3>
+                    <!-- url 'add_zone' task.id -->
+                    <form enctype="multipart/form-data" action="{% url 'add_zone'%}" method="POST">
+                        {% csrf_token %}
+                        <p> 1. Click on the picture 4 points to select Solar Cell zone </p>
+                        <p> 2. your zone name </p>
+
+                        <div class="input-container">
+                            <div>
+                                <label for="zone_name">Zone Name:</label>
+                                <input type="text" id="zone_name" name="zone_name" value="{{zone.zone_name}}"/>
                             </div>
-                            <p class="subtitle">Press 1,2,3,4 to edit the points in order</p>
-                            <p class="subtitle">Press Q to cancel</p>
+
+                            <div class="set-input-block">
+                                <div class="col-left" style="margin-bottom: 10px;">
+                                    <div>
+                                        <label for="x1">x1</label>
+                                        <input type="number" id="x1" name="x1" value="{{zone.x1}}" required/>
+                                        <label for="y1">y1</label>
+                                        <input type="number" id="y1" name="y1" value="{{zone.y1}}" required/>
+                                        <br>
+                                    </div>
+                                    <div>
+                                        <label for="x2">x2</label>
+                                        <input type="number" id="x2" name="x2" value="{{zone.x2}}" required/>
+                                        <label for="y2">y2</label>
+                                        <input type="number" id="y2" name="y2" value="{{zone.y2}}" required/>
+                                        <br>
+                                    </div>
+                                    <div>
+                                        <label for="x3">x3</label>
+                                        <input type="number" id="x3" name="x3" value="{{zone.x3}}" required/>
+                                        <label for="y3">y3</label>
+                                        <input type="number" id="y3" name="y3" value="{{zone.y3}}" required/>
+                                        <br>
+                                    </div>
+                                    <div>
+                                        <label for="x4">x4</label>
+                                        <input type="number" id="x4" name="x4" value="{{zone.x4}}" required/>
+                                        <label for="y4">y4</label>
+                                        <input type="number" id="y4" name="y4" value="{{zone.y4}}" required/>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div>
+                                <p class="subtitle">Press 1,2,3,4 to edit the points in order</p>
+                                <p class="subtitle">Press Q to cancel</p>
+                            </div>
                         </div>
-                    <p> 3. Confirm points and name </p>
-                    <input class="button bttm-right" type="submit" value="CONFIRM">
-                </form>
 
+                        <p> 3. Confirm points and name </p>
+                        <div class="confirm-button">
+                            <input class="button bttm-right" type="submit" value="CONFIRM">
+                        </div>
+                    </form>
+
+                </div>
+
+                <div class="site-created-zone">
+                    <h3> Created Zone </h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Display</th>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Delete</th>    
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for zone in zones %}
+                            <tr>
+                                <td>
+                                    <input type="checkbox" id="toggle-switch">
+                                </td>
+                                <td> {{ zone.id }} </td>
+                                <td> {{ name }}</td>
+                                <td>
+                                    <form action="{% url 'delete_zone' zone.id %}" method="GET">
+                                        <input type="hidden" name="task_id" value="{{ task.id }}">
+                                        <input type="submit" class="delete" value="DELETE">
+                                    </form>
+                                </td>            
+                            </tr>
+                            {% endfor %}
+
+
+                            <tr>
+                                <td>
+                                    <input type="checkbox" id="toggle-switch">
+                                </td>
+                                <td> ID </td>
+                                <td> Name </td>
+                                <td>
+                                    button
+                                </td> 
+                            </tr>
+
+
+                        </tbody>
+                    </table>
+
+                </div>
+                <button type="submit" class="submit-button">Submit Task</button>
             </div>
-
-            <div>
-                <p> Created Zone </p>
-                <table>
-                    <thead>
-                        <tr>
-                            <th class="head-table">ID</th>
-                            <th>Action</th>    
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for zone in zones %}
-                        <tr>
-                            <td>{{ zone.id }}</td>
-                            <td>
-                                <form action="{% url 'delete_zone' zone.id %}" method="GET">
-                                    <input type="hidden" name="task_id" value="{{ task.id }}">
-                                    <input type="submit" class="delete" value="DELETE">
-                                </form>
-                            </td>            
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-
-            </div>
-            <button type="submit">Submit Task</button>
         </div>
     </form>
 
 {% endblock %}
     
 {% block script %}
-    <!-- <script src="{% static 'js/toggle-page.js' %}"></script> -->
+    <script src="{% static 'js/toggle-page.js' %}"></script>
     <!-- <script src="{% static 'js/fetch-solarPlantName.js' %}"></script> -->
-    <script>
-        function toggleSection() {
-            var section1 = document.getElementById('section1');
-            var section2 = document.getElementById('section2');
-            if (section1.style.display === 'block') {
-                section1.style.display = 'none';
-                section2.style.display = 'block';
-            } else {
-                section1.style.display = 'block';
-                section2.style.display = 'none';
-            }
-        }
-    </script>
 {% endblock %}

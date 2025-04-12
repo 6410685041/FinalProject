@@ -1,0 +1,122 @@
+.content-section {
+    padding: 20px;
+    margin-top: 20px;
+    background-color: white;
+}
+
+/* search engine */
+div.search-engine {
+    display: flex; 
+    justify-content: left; 
+    align-items: center;
+}
+
+div.search-engine input {
+    display: inline;
+    margin-right: 10px;
+}
+
+input[name="search"] {
+    border: 2px solid green;
+    border-radius: 15px;
+    background-color: #EDEDED;
+    padding: 5px 10px;
+    width: 300px;
+}
+
+a.site-button {
+    border: 1px solid #FFCC00;
+    border-radius: 15px;
+    background-color: #FFCC00;
+    color: white;
+    padding: 5px 10px;
+    width: 60px;
+    text-align: center;
+}
+
+div.site-function {
+    display: flex;
+    justify-content: space-between;
+}
+
+/* table */
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 10px;
+    text-align: center;
+}
+
+th {
+    color: #FFCC00;
+    border-bottom: 1px solid black;
+}
+
+th.fixed-column, td.fixed-column {
+    width: 150px;
+}
+
+/* status in table */
+.green-border {
+    color: green;
+    background-color: white;
+    width: 150px;
+    height: 40px;
+    border: 2px solid green;
+    border-radius: 5px;
+}
+
+.gray-border {
+    color: gray;
+    background-color: white;
+    width: 150px;
+    height: 40px;
+    border: 2px solid gray;
+    border-radius: 5px;
+}
+
+.yellow-border {
+    color: black;
+    background-color: white;
+    width: 150px;
+    height: 40px;
+    border: 2px solid #FFB600;;
+    border-radius: 5px;
+}
+
+.green-box {
+    color: white;
+    background-color: green;
+    width: 150px;
+    height: 40px;
+    border-radius: 5px;
+    border: 2px solid green;
+}
+
+.gray-box {
+    color: white;
+    background-color: gray;
+    width: 150px;
+    height: 40px;
+    border-radius: 5px;
+    border: 2px solid gray;
+}
+
+/* calendar */
+input[type="date"]::-webkit-inner-spin-button, input[type="date"]::-webkit-calendar-picker-indicator {
+    /* display: none;
+    -webkit-appearance: none; */
+    margin:0;
+}
+
+input[type="date"]::-webkit-datetime-edit {
+    display:none;
+}
+
+input[type="date"]{
+    border: none;
+    background-color: #EDEDED;
+}

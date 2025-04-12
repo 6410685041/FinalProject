@@ -1,0 +1,131 @@
+/* Make 2 page in one html */
+.section {
+    display: none; /* Hide sections by default */
+}
+
+.section-background {
+    padding: 20px;
+    margin-top: 20px;
+    background-color: white;
+}
+
+#section1 {
+    display: block; /* Show first section by default */
+}
+
+.clickable {
+    cursor: pointer;
+}
+
+/* Universal */
+.introduction {
+    color: #FFB600;
+}
+
+span {
+    color: black;
+}
+
+button, input[type="submit"] {
+    padding: 10px;
+    width: 100px;
+    background-color: #FFB600;
+    color: white;
+    border-color: #FFB600;
+    border-radius: 5px;
+    border-style: none;
+}
+
+h3 {
+    text-align: center;
+}
+
+
+
+/* Container for Section 1 */
+#container-section1 {
+    display: grid;
+    grid-template-columns: 1fr 4fr;
+    gap: 15px;
+    align-items: center;
+}
+
+input, select {
+    padding: 10px 5px;
+    border: 1px solid #ffcc00;
+    border-radius: 5px;
+}
+
+input {
+    width: 35%;
+}
+
+select {
+    width: 37%
+}
+
+
+
+/* Container for Section 2 */
+#container-section2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas: 
+        "reference position"
+        "create created-zone"
+        "submit submit";
+    gap: 10px;
+    justify-items: center;
+}
+
+.submit-button {
+    grid-area: submit;
+    background-color: green;
+    width: 120px;
+}
+
+.confirm-button {
+    text-align: center;
+}
+
+/* for site Create */
+.input-container div {
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.input-container div div {
+    margin-bottom: 5px;
+}
+
+label {
+    margin-right: 10px;
+}
+
+.input-container div div input {
+    margin-right: 10px;
+    width: 30%;
+}
+
+/* for site Created Zone */
+.site-created-zone {
+    grid-area: created-zone;
+    width: 100%;
+}
+
+#container-section2 table {
+    width: 80%;
+    border-collapse: collapse;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#container-section2 th, #container-section2 td {
+    padding: 10px;
+    text-align: center;
+}
+
+#container-section2 th {
+    color: #FFCC00;
+    border-bottom: 1px solid black;
+}

@@ -19,7 +19,7 @@ from django.urls import path, include
 from .views import home
 # for include Process App
 import process
-from process import view_urls
+from process import view_urls, function_urls
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -27,4 +27,5 @@ urlpatterns = [
     path("accounts/", include("allauth.urls")),  # social
     # Process App
     path("process/", include(process.view_urls)),
+    path("process/function/", include(process.function_urls)),
 ]

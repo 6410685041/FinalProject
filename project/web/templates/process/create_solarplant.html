@@ -4,37 +4,42 @@
 {% block css %}
 <!-- Loading Leaflet CSS -->
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+<link rel="stylesheet" href="{% static 'css/solarplant.css' %}"> 
 {% endblock %}
 
 {% block content %}
 <h1>Create New Solar Plant</h1>
-<form method="post" enctype="multipart/form-data" action="{% url 'create_solarPlant' %}">
-    {% csrf_token %}
-    <div class="site-submit">
-        <div>
-            <p>1. Insert Solar Plant name</p>
-            <labe for="solarPlant_name">Solar Plant name:</labe>
-            <input type="text" id="solarPlant_name" name="solarPlant_name"><br>
-        </div>
-
-        <div>
-            <p>2. Select Location</p>
+<div class="content-section">
+    <form method="post" enctype="multipart/form-data" action="{% url 'create_solarplant' %}">
+        {% csrf_token %}
+        <div class="site-submit">
             <div>
-                <label for="location" style="margin-top: auto; margin-bottom: auto;">Location: </label>
-                <input type="text" name="location" id="location" required>
+                <p>1. Insert Solar Plant name</p>
+                <div class="input-block">
+                    <label for="solarPlant_name">Solar Plant name:</label>
+                    <input type="text" id="solarPlant_name" name="solarPlant_name" required><br>
+                </div>
             </div>
-            <div id="map" class="site-map"></div>
-            <!-- Hidden inputs for latitude and longitude -->
-        </div>
-    </div>
-    <input type="submit" value="Submit" class="site-submit-button">
-</form>
 
+            <div>
+                <p>2. Select Location</p>
+                <div class="input-block">
+                    <label for="location" style="margin-top: auto; margin-bottom: auto;">Location: </label>
+                    <input type="text" name="location" id="location" required>
+                </div>
+                <div id="map" class="site-map"></div>
+            </div>
+        </div>
+        <div class="submit-button">
+            <input type="submit" value="Submit" class="site-submit-button">
+        </div>
+    </form>
+</div>
 
 {% endblock %}
 
 {% block script %}
-<!-- Leaflet's JS -->
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-<script src="{% static 'js/map.js' %}"></script>
+    <!-- Leaflet's JS -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script src="{% static 'js/map.js' %}"></script>
 {% endblock %}
