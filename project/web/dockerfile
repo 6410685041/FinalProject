@@ -12,5 +12,5 @@ COPY . .
 
 EXPOSE 80
 
-# CMD ["python", "script.py", "-s"]
+# CMD ["python", "script.py", "-m"]
 CMD ["python", "script.py", "-a"]

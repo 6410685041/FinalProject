@@ -18,26 +18,41 @@
 <div class="content-section">
     <table class="solarplant-table">
         <tr>
-            <th>ID</th>
+            <th>Order</th>
             <th>Solar Plant</th>
             <th>Address</th>
             <th class="fixed-column">Total Task</th>
         </tr>
 
         <tr>
-            <td>id</td>
+            <td>test</td>
             <td>solar plant</td>
             <td>address</td>
             <td> <button class="yellow-border">10</button> </td>
         </tr>
 
+        {% for data in solarplants%}
         <tr>
-            <td>id</td>
-            <td>solar plant</td>
-            <td>address</td>
-            <td> <button class="yellow-border">10</button> </td>
+            <td> {{forloop.counter}} </td>
+            <!-- <td> {{data.solarPlant_name}}</td>
+            <td> {{data.location}} </td> -->
+            <td>{{ data.solarPlant_name|default:"No Name Provided" }}</td>
+            <td>{{ data.location|default:"No Location Provided" }}</td>
+
+            <td> <button class="yellow-border"> blank </button> </td>
         </tr>
+        {% endfor %}
     </table>
 </div>
 
+{% endblock %}
+
+{% block script %}
+{% if message %}
+    <script type="text/javascript">
+        window.onload = function() {
+                alert("{{ message.message }}");
+        };
+    </script>
+{% endif %}
 {% endblock %}
