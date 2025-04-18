@@ -1,27 +1,32 @@
-from fastapi import FastAPI, File, UploadFile, Form
-from typing import List
-
-from fastapi import FastAPI
-from database import database
-from models import tasks
+from fastapi import FastAPI, File, UploadFile, Form, HTTPException, status,  Depends
 from typing import List
 from datetime import datetime
 from fastapi.middleware.cors import CORSMiddleware
 
+from database import database, SessionLocal
+from models import tasks, SolarPlant
+from schemas import SolarPlantCreate
+
 import json
 import os
 from sqlalchemy import create_engine, text
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import sessionmaker, Session
 
 app = FastAPI()
+
+origins = [
+    "http://0.0.0.0:8000",
+    "http://localhost:8000",
+    "http://127.0.0.1:8000",
+]
 
 # Configure CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://127.0.0.1:8000"],  # List of allowed origins
-    allow_credentials=True,
-    allow_methods=["*"],  # Allows all methods
-    allow_headers=["*"],  # Allows all headers
+    allow_origins=origins,  # List of origins
+    allow_credentials=True,  # Allow cookies
+    allow_methods=["*"],  # Allow all methods
+    allow_headers=["*"],  # Allow all headers
 )
 
 # Setup database engine and session
@@ -29,19 +34,63 @@ DATABASE_URL = os.getenv("DATABASE_URL")
 engine = create_engine(DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
-@app.get("/SolarPlant/allname")
-def find_all_name_solarplant():
+def get_db():
     db = SessionLocal()
     try:
-        query = text("SELECT \"solarPlant_name\" FROM user_solarplant")
+        yield db
+    finally:
+        db.close()
+
+@app.get("/SolarPlant/all")
+def find_all_solarplant():
+    db = SessionLocal()
+    try:
+        query = text("SELECT \"solarPlant_id\", \"solarPlant_name\" FROM user_solarplant")
         result = db.execute(query).fetchall()
-        result_list = [{'solarPlant_name': row[0]} for row in result]
-        # result_list = [dict(row) for row in result]
+        result_list = [{'solarPlant_id': str(row[0]), 'solarPlant_name': row[1]} for row in result]
     except Exception as e:
         return {"error": str(e)}
     finally:
         db.close()  # Make sure to close the session
     return json.dumps(result_list)
+
+@app.get("/SolarPlant/data")
+def find_all_solarplant():
+    db = SessionLocal()
+    try:
+        query = text("SELECT \"solarPlant_name\", \"location\" FROM user_solarplant")
+        result = db.execute(query).fetchall()
+        result_list = [{'solarPlant_name': str(row[0]), 'location': row[1]} for row in result]
+    except Exception as e:
+        return {"error": str(e)}
+    finally:
+        db.close()  # Make sure to close the session
+    return json.dumps(result_list)
+
+@app.post("/SolarPlant/create")
+def create_solarplant(solar_plant: SolarPlantCreate, db: Session = Depends(get_db)):
+    db = SessionLocal()
+    try:
+        # Check if the solar plant name already exists
+        existing_plant = db.query(SolarPlant).filter(SolarPlant.solarPlant_name == solar_plant.solarPlant_name).first()
+        if existing_plant:
+            return {"message": "This name is already exists."}
+            # return HTTPException(status_code=400, detail="This name is already exists")
+        
+        # Create new solar plant if the name does not exist
+        new_plant = SolarPlant(solarPlant_name=solar_plant.solarPlant_name, location=solar_plant.location)
+        db.add(new_plant)
+        db.commit()
+        db.refresh(new_plant)
+        return {"message": "Solar plant created successfully."}
+    except HTTPException as he:
+        db.rollback()
+        return {"error": str(he.detail)}, he.status_code
+    except Exception as e:
+        db.rollback()
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e))
+    finally:
+        db.close()
 
 @app.post("/tasks/")
 async def create_task(
