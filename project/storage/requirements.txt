@@ -7,3 +7,4 @@ databases[postgresql]
 python-multipart
 psycopg2-binary  # ถ้าใช้ databases ไม่จำเป็นต้องใช้ psycopg2-binary
 cors
+pytz
