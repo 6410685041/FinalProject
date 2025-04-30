@@ -83,7 +83,7 @@ th.fixed-column, td.fixed-column {
     background-color: white;
     width: 150px;
     height: 40px;
-    border: 2px solid #FFB600;;
+    border: 2px solid #FFB600;
     border-radius: 5px;
 }
 
@@ -103,6 +103,15 @@ th.fixed-column, td.fixed-column {
     height: 40px;
     border-radius: 5px;
     border: 2px solid gray;
+}
+
+.yellow-box {
+    color: white;
+    background-color: #FFB600;
+    width: 150px;
+    height: 40px;
+    border-radius: 5px;
+    border: 2px solid #FFB600;
 }
 
 /* calendar */

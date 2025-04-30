@@ -34,8 +34,6 @@
         {% for data in solarplants%}
         <tr>
             <td> {{forloop.counter}} </td>
-            <!-- <td> {{data.solarPlant_name}}</td>
-            <td> {{data.location}} </td> -->
             <td>{{ data.solarPlant_name|default:"No Name Provided" }}</td>
             <td>{{ data.location|default:"No Location Provided" }}</td>
 

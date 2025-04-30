@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", function(){
-    fetch('http://127.0.0.1:5003/SolarPlant/allname')
+    fetch('http://127.0.0.1:5003/SolarPlant/all')
   .then(response => {
       if (!response.ok) {
           throw new Error('Network response was not ok: ' + response.statusText);
@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", function(){
           if (Array.isArray(data)) {
               data.forEach(item => {
                   const option = document.createElement('option');
-                  option.value = item.solarPlant_name; // Correct property name
+                  option.value = item.solarPlant_id;
                   option.textContent = item.solarPlant_name;
                   selectElement.appendChild(option);
               });

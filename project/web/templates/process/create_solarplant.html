@@ -11,7 +11,7 @@
 <h1>Create New Solar Plant</h1>
 
 <div class="content-section">
-    <form method="post" enctype="multipart/form-data" action="{% url 'create_solarplant' %}">
+    <form method="post" enctype="multipart/form-data" action="{% url 'create_solarplant' %}" id="create-solarplant">
         {% csrf_token %}
         <div class="site-submit">
             <div>
@@ -43,5 +43,5 @@
     <!-- Leaflet's JS -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
     <script src="{% static 'js/map.js' %}"></script>
-    
+    <script src="{% static 'js/check-form-solarplant.js' %}"></script>    
 {% endblock %}
