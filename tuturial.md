@@ -56,6 +56,18 @@ select * from pg_catalog.pg_tables where schemaname='public';
 \r
 ```
 
+### for check each column in table
+
+```sh
+\d <column name>;
+```
+
+### for check each row in table
+
+```sh
+select * from <column name>;
+```
+
 # For Website
 
 ## if there is problem with `django site`
