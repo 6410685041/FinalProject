@@ -143,3 +143,5 @@ GitHub.sublime-settings
 
 # for project
 project/storage/SolarData
+project/web/static/file
+project/web/static/video

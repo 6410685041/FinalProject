@@ -1,6 +1,7 @@
 import os
 import django
 import subprocess
+from dateutil import parser
 
 from dotenv import load_dotenv
 load_dotenv()
@@ -17,18 +18,20 @@ except Exception as e:
 
 from django.core.management import call_command
 from user.models import User, SolarPlant
+from process.models import Task
 from datetime import datetime
 import argparse
 from django.contrib.sites.models import Site
 from allauth.socialaccount.models import SocialApp
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth import get_user_model
+import pytz
 
 
 def run_migrations():
     print("Running migrations...")
     subprocess.run(["python", "manage.py", "makemigrations", "user"])
-    # subprocess.run(["python", "manage.py", "makemigrations", "process"])
+    subprocess.run(["python", "manage.py", "makemigrations", "process"])
     call_command("makemigrations")
     call_command("migrate")
     print("Migrations complete.")
@@ -55,8 +58,10 @@ def create_superuser(solarplant):
             print(f'Error creating superuser: {e}')
     else:
         print("A superuser already exists.")
+        user = User.objects.get(username="admin")
 
     print("Create super user complete.")
+    return user
 
 def create_SolarPlant():
     solarPlant_name = "default department"
@@ -73,6 +78,43 @@ def create_SolarPlant():
         print(f'Solar Plant "{solarPlant_name}" already exists.')
 
     return solarPlant
+
+def create_task(user, solarplant):
+    weather = "Sunny"
+    collected_time = parser.isoparse("2025-04-22T08:05:43.364Z")
+    upload_time = datetime.now(pytz.timezone("Asia/Bangkok"))
+    temperature = 25.5
+
+    task, created = Task.objects.get_or_create(
+        collected_time = collected_time,
+        upload_time = upload_time,
+        weather = weather,
+        temperature = temperature,
+        owner = user,
+        solarPlant = solarplant,
+        video = 'static/video/1.mp4'
+    )
+
+    if created:
+        print(f'video task created successfully.')
+    else:
+        print(f'this video task already exists.')
+
+    task, created = Task.objects.get_or_create(
+        collected_time = collected_time,
+        upload_time = upload_time,
+        weather = weather,
+        temperature = temperature,
+        owner = user,
+        solarPlant = solarplant,
+        file = 'static/file/file1.mp4'
+    )
+
+    if created:
+        print(f'image task created successfully.')
+    else:
+        print(f'this image task already exists.')
+
 
 def create_initial_data(
     google_cid,
@@ -102,17 +144,18 @@ def create_initial_data(
     google.sites.set([site])
 
     solarplant = create_SolarPlant()
-    create_superuser(solarplant)
+    user = create_superuser(solarplant)
+    create_task(user, solarplant)
 
 
 if __name__ == "__main__":
     # Parse command-line arguments
-    parser = argparse.ArgumentParser(description="Script to help doing the things")
-    parser.add_argument("-r", action="store_true", help="Reset")
-    parser.add_argument("-m", action="store_true", help="Migrate")
-    parser.add_argument("-c", action="store_true", help="Social Account")
-    parser.add_argument("-a", action="store_true", help="Activate docker")
-    args = parser.parse_args()
+    arg_parser = argparse.ArgumentParser(description="Script to help doing the things")
+    arg_parser.add_argument("-r", action="store_true", help="Reset")
+    arg_parser.add_argument("-m", action="store_true", help="Migrate")
+    arg_parser.add_argument("-c", action="store_true", help="Social Account")
+    arg_parser.add_argument("-a", action="store_true", help="Activate docker")
+    args = arg_parser.parse_args()
     # if args.r:
     #     with open("reset_list.txt", "r") as file:
     #         for to_clear in file.read().split("\n"):
