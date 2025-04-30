@@ -35,9 +35,10 @@
 
         <nav id="navbar" class="site-nav-left">
             <div class="navbar-left">
-                <a href="{% url 'home' %}">Home</a>
-                <a href="{% url 'solarplant_view' %}">Solar Plants</a>
-                <a href="{% url 'upload_view' %}">Upload</a>
+                <a href="{% url 'home' %}"> <i class="fa-solid fa-house"></i> Home</a>
+                <a href="{% url 'solarplant_view' %}"> <i class="fa-solid fa-solar-panel"></i> Solar Plants</a>
+                <a href="{% url 'upload_view' %}"> <i class="fa-solid fa-arrow-up-from-bracket"></i> Upload</a>
+                <a href="{% url 'task_view' %}"> <i class="fa-solid fa-list-check"></i> Task</a>
             </div>
         </nav>
 
@@ -46,6 +47,7 @@
         </div>
 
         {% block script %} {% endblock %}
+        <script src="https://kit.fontawesome.com/0689124db9.js" crossorigin="anonymous"></script>
 
     </div>
 

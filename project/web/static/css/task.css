@@ -1,22 +1,3 @@
-/* Make 2 page in one html */
-.section {
-    display: none; /* Hide sections by default */
-}
-
-.section-background {
-    padding: 20px;
-    margin-top: 20px;
-    background-color: white;
-}
-
-#section1 {
-    display: block; /* Show first section by default */
-}
-
-.clickable {
-    cursor: pointer;
-}
-
 /* Universal */
 .introduction {
     color: #FFB600;
@@ -40,14 +21,23 @@ h3 {
     text-align: center;
 }
 
+.section-background {
+    padding: 20px;
+    margin-top: 20px;
+    background-color: white;
+}
 
 
 /* Container for Section 1 */
-#container-section1 {
-    display: grid;
-    grid-template-columns: 1fr 4fr;
-    gap: 15px;
-    align-items: center;
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 10px;
+}
+
+th {
+    width: 150px;
+    text-align: left;
 }
 
 input, select {

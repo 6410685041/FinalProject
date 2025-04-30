@@ -1,0 +1,72 @@
+{% extends "layout.html" %}
+{% load static %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/task.css' %}"> 
+{% endblock %}
+
+{% block content %}
+<h1>Upload Video and Files</h1>
+<form method="post" enctype="multipart/form-data" action="{% url 'upload_task' %}" id="upload-task">
+    {% csrf_token %}
+    <div class="section-background">
+    <table>
+        <tr>
+            <th><label for="solarPlant">Solar Plant Name:</label></th>
+            <td>
+                <select id="solarPlant" name="solarPlant" required>
+                    {% for solarplant in solarplants %}
+                    <option value="{{solarplant.solarPlant_id}}">{{solarplant.solarPlant_name}}</option>
+                    {% endfor %}
+                </select>
+            </td>
+        </tr>
+
+        <tr>
+            <th><label for="weather">Weather:</label></th>
+            <td>
+                <select id="weather" name="weather" required>
+                    <option value="SUNNY">Sunny</option>
+                    <option value="WINDY">Windy</option>
+                    <option value="CLOULDY">Cloudy</option>
+                    <option value="RAINY">Rainy</option>
+                </select>
+            </td>
+        </tr>
+
+        <tr>
+            <th><label for="video">Video File:</label></th>
+            <td><input type="file" id="video" name="video"></td>
+        </tr>
+
+        <tr>
+            <th><label for="image">Image File:</label></th>
+            <td><input type="file" id="image" name="image"></td>
+        </tr>
+
+        <tr>
+            <th><label for="collected_time">Collected Time:</label></th>
+            <td><input type="datetime-local" id="collected_time" name="collected_time" required></td>
+        </tr>
+
+        <tr>
+            <th><label for="temperature">Temperature:</label></th>
+            <td><input type="number" id="temperature" name="temperature" step="0.1" required></td>
+        </tr>
+    </table>
+    <button type="submit" class="submit-button">Upload Task</button>
+    </div>
+</form>
+{% endblock %}
+    
+{% block script %}
+    <script src="{% static 'js/check-point-upload.js' %}"></script>
+    {% if message %}
+        <p>{{message}}</p>
+        <script type="text/javascript">
+            window.onload = function() {
+                    alert("{{ message.message }}");
+            };
+        </script>
+    {% endif %}
+{% endblock %}

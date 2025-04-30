@@ -6,38 +6,8 @@
 {% endblock %}
 
 {% block content %}
-<h1>Upload Video and Files</h1>
+<h1>Setting Zone in Task</h1>
 <form action="http://localhost:5002/tasks/" method="post" enctype="multipart/form-data">
-    <div id="section1" class="section">
-        <p class="introduction">1. select Solar Plant and files</p>
-            <div id="container-section1" class="section-background">
-                <label for="solarPlant">Solar Plant Name:</label>
-                <select id="solarPlant" name="solarPant" required></select>
-
-                <label for="weather">Weather:</label>
-                <select id="weather" name="weather" required>
-                    <option value="SUNNY">Sunny</option>
-                    <option value="WINDY">Windy</option>
-                    <option value="CLOULDY">Cloudy</option>
-                    <option value="RAINY">Rainy</option>
-                </select>
-
-                <label for="video">Video File:</label>
-                <input type="file" id="video" name="video">
-
-                <label for="image">Image File:</label>
-                <input type="file" id="image" name="image">
-
-                <label for="collected_time">Collected Time:</label>
-                <input type="datetime-local" id="collected_time" name="collected_time" required>
-
-                <label for="temperature">Temperature:</label>
-                <input type="number" id="floatInput" name="floatInput" step="0.1" required>
-
-                <button onclick="toggleSection()">Next</button>
-            </div>
-        </div>
-
         <div id="section2" class="section">
             <p class="introduction"> <span class="clickable" onclick="toggleSection()"> 1. select Solar Plant and files</span> / 2. select Solar Cell</p>
             <div id="container-section2" class="section-background">
@@ -175,5 +145,4 @@
     
 {% block script %}
     <script src="{% static 'js/toggle-page.js' %}"></script>
-    <!-- <script src="{% static 'js/fetch-solarPlantName.js' %}"></script> -->
 {% endblock %}

@@ -8,10 +8,11 @@ class Zone(models.Model):
 
 class Task(models.Model):
     status = models.BooleanField(default=False)
-    collected_time = models.TimeField()
-    submitted_time = models.TimeField()
+    collected_time = models.DateTimeField()
+    submitted_time = models.DateTimeField(null=True, blank=True) # for in process AI
+    upload_time = models.DateTimeField() # for upload file to process
     solarPlant = models.ForeignKey(SolarPlant, on_delete=models.CASCADE)
-    owner = models.OneToOneField(User, on_delete=models.CASCADE)
+    owner = models.ForeignKey(User, on_delete=models.CASCADE)
     zones = models.ManyToManyField(Zone)
 
     WEATHER_CONDITIONS = (
@@ -23,6 +24,6 @@ class Task(models.Model):
 
     weather = models.CharField(max_length=10, choices=WEATHER_CONDITIONS)
     temperature = models.FloatField(default=0)
-    file = models.FileField()
-    video = models.FileField(upload_to='videos/')
+    file = models.FileField(upload_to='files/', null=True, blank=True)
+    video = models.FileField(upload_to='videos/', null=True, blank=True)
 
